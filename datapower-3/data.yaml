@@ -1,0 +1,14 @@
+---
+backend_ip: 172.22.10.141
+frontend_ip: 172.22.10.13
+fqdn: pr-apic-dpgw3.nsb.local
+xml_mgmt_port: 5550
+rest_mgmt_port: 5554
+peer_group:
+  - fqdn: pr-apic-dpgw1.nsb.local
+    ip: 172.22.10.139
+  - fqdn: pr-apic-dpgw2.nsb.local
+    ip: 172.22.10.140
+  - fqdn: pr-apic-dpgw3.nsb.local
+    ip: 172.22.10.141
+gateway_peering_priority: 110

@@ -1,0 +1,111 @@
+top; configure terminal;
+    sw default
+
+    xml-mgmt
+        admin-state enabled
+        local-address {{ backend_ip }}
+        port {{ xml_mgmt_port }}
+    exit
+
+    rest-mgmt
+        admin-state enabled
+        local-address {{ backend_ip }}
+        port {{ rest_mgmt_port }}
+    exit
+
+    system
+        name "{{ fqdn }}"
+    exit
+
+    {% for peer in peer_group -%}
+    host-alias {{ peer.fqdn }}
+        ip-address {{ peer.ip }}
+    exit
+    {% endfor %}
+
+    domain apiconnect; visible default; exit;
+    sw apiconnect
+
+    loglevel error;
+    logging target gwd-log
+        type file
+        format text
+        timestamp syslog
+        size 50000
+        local-file logtemp:///gwd-log
+        event apic-gw-service debug
+    exit
+
+    config-sequence "apiconnect"
+      location "local:///"
+      watch "on"
+      delete-unused "on"
+      match "(.*)\.cfg$"
+      summary "Toolkit Reboot configuration"
+      run-sequence-interval 3000  
+      optimize-for-apic on
+    exit
+
+    crypto
+        idcred id-cred-apic {{ fqdn }} {{ fqdn }}
+        ssl-client gwd-to-mgmt
+            idcred id-cred-apic
+            no validate-server-cert
+        exit
+        ssl-server gwd-to-mgmt
+            idcred id-cred-apic
+            no request-client-auth
+            validate-client-cert off
+        exit
+    exit
+
+    {% for peering_object_name in ['subs', 'rate-limit', 'gwd', 'probe', 'gws-rate-limit'] %}
+    gateway-peering {{ peering_object_name }}
+        admin enabled
+        local-address {{ backend_ip }}
+        local-port {{ 16383 + loop.index }}
+        monitor-port {{ 26383 + loop.index }}
+        priority {{ gateway_peering_priority }}
+        enable-ssl off
+        enable-peer-group on
+        {%- for peer in peer_group %}
+        {%- if peer.fqdn.strip() != fqdn.strip() %}
+        peer {{ peer.fqdn }}
+        {%- endif %}
+        {%- endfor %}
+        persistence memory
+    exit
+    {% endfor %}
+
+    gateway-peering-manager
+      admin enabled
+      apic-gw-service gwd
+      rate-limit rate-limit
+      subscription subs
+      apiprobe probe
+      ratelimit-module gws-rate-limit
+    exit
+
+    apiprobe-settings
+        admin-state enabled
+        max-records 1000
+        gateway-peering probe
+    exit
+
+    apic-gw-service
+      admin-state enabled
+      local-address {{ backend_ip }}
+      local-port 3000
+      api-gw-address {{ frontend_ip }}
+      api-gw-port 443
+      v5-compatibility-mode off
+      ssl-server gwd-to-mgmt
+      ssl-client gwd-to-mgmt
+    exit
+
+    write memory
+
+    sw default
+    write memory
+exit
+
