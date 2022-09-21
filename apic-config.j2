@@ -17,6 +17,12 @@ top; configure terminal;
         name "{{ fqdn }}"
     exit
 
+    {% for host_alias in host_aliases -%}
+    host-alias {{ host_alias.fqdn }}
+        ip-address {{ host_alias.ip }}
+    exit
+    {% endfor %}
+
     {% for peer in peer_group -%}
     host-alias {{ peer.fqdn }}
         ip-address {{ peer.ip }}

@@ -5,5 +5,9 @@ top; configure terminal;
     crypto
         keygen C LK CN {{ fqdn }} gen-object gen-sscert export-sscert
     exit
+    write memory
+
+    sw default
+    write memory
 exit
 

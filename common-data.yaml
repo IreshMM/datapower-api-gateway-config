@@ -1,0 +1,38 @@
+xml_mgmt_port: 5550
+rest_mgmt_port: 5554
+peer_group:
+  - fqdn: pr-apic-dpgw1.nsb.local
+    ip: 172.22.10.139
+  - fqdn: pr-apic-dpgw2.nsb.local
+    ip: 172.22.10.140
+  - fqdn: pr-apic-dpgw3.nsb.local
+    ip: 172.22.10.141
+host_aliases:
+  - fqdn: pr-apic-mgr.nsb.local
+    ip: 192.168.72.11
+  - fqdn: platform-api.pr-apic-mgr.nsb.local
+    ip: 192.168.72.11
+  - fqdn: consumer-api.pr-apic-mgr.nsb.local
+    ip: 192.168.72.11
+  - fqdn: cloud-admin-ui.pr-apic-mgr.nsb.local
+    ip: 192.168.72.11
+  - fqdn: api-manager-ui.pr-apic-mgr.nsb.local
+    ip: 192.168.72.11
+  - fqdn: hub.pr-apic-mgr.nsb.local
+    ip: 192.168.72.11
+  - fqdn: turnstile.pr-apic-mgr.nsb.local
+    ip: 192.168.72.11
+
+  - fqdn: pr-apic-anytcs.nsb.local
+    ip: 192.168.72.12
+  - fqdn: analytics-client.pr-apic-anytcs.nsb.local
+    ip: 192.168.72.12
+  - fqdn: analytics-ingestion.pr-apic-anytcs.nsb.local
+    ip: 192.168.72.12
+
+  - fqdn: pr-apic-devptl.nsb.local
+    ip: 192.168.72.13
+  - fqdn: portal-admin.pr-apic-devptl.nsb.local
+    ip: 192.168.72.13
+  - fqdn: portal-www.pr-apic-devptl.nsb.local
+    ip: 192.168.72.13
