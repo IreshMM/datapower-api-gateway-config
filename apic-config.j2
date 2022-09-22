@@ -1,6 +1,12 @@
 top; configure terminal;
     sw default
 
+    web-mgmt
+        admin-state enabled
+        local-address {{ backend_ip }}
+        port 9090
+    exit
+
     xml-mgmt
         admin-state enabled
         local-address {{ backend_ip }}
