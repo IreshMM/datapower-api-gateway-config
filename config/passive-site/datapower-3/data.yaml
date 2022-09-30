@@ -1,0 +1,5 @@
+---
+backend_ip: 172.23.10.141
+frontend_ip: 172.23.10.13
+fqdn: pr-apic-dpgw3.nsb.local
+gateway_peering_priority: 110
