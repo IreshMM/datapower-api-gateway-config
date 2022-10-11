@@ -8,6 +8,7 @@ GATEWAY_NUM="$2"
 DP_CONFIG_DIR='local:///apic-config'
 CONFIG_DIR=${SCRIPT_ROOT}/../config/${SITE}/datapower-${GATEWAY_NUM}
 HOST=$(yq -r '.fqdn' ${CONFIG_DIR}/data.yaml)
+IP=$(yq -r '.backend_ip' ${CONFIG_DIR}/data.yaml)
 
 cat <<EOF > /tmp/recreate_domain.cfg
 	top; configure terminal;
@@ -19,6 +20,7 @@ cat <<EOF > /tmp/recreate_domain.cfg
 	exit
 EOF
 
+$SCRIPT_ROOT/execute.sh "$HOST" "configure terminal; xml-mgmt $IP 5550; exit"
 $SCRIPT_ROOT/execute.sh "$HOST" "configure terminal; mkdir $DP_CONFIG_DIR; exit"
 
 dp-file-uploader "$HOST" "$DP_CONFIG_DIR" /tmp/recreate_domain.cfg
