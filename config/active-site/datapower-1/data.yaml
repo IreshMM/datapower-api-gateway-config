@@ -1,5 +1,5 @@
 ---
 backend_ip: 172.22.10.139
 frontend_ip: 172.22.10.11
-fqdn: pr-apic-dpgw1.nsb.local
+fqdn: pr-apic-dpgw1.apic.nsb.local
 gateway_peering_priority: 100

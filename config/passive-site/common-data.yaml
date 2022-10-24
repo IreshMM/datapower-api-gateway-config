@@ -1,38 +1,38 @@
 xml_mgmt_port: 5550
 rest_mgmt_port: 5554
 peer_group:
-  - fqdn: pr-apic-dpgw1.nsb.local
+  - fqdn: dr-apic-dpgw1.apic.nsb.local
     ip: 172.23.10.139
-  - fqdn: pr-apic-dpgw2.nsb.local
+  - fqdn: dr-apic-dpgw2.apic.nsb.local
     ip: 172.23.10.140
-  - fqdn: pr-apic-dpgw3.nsb.local
+  - fqdn: dr-apic-dpgw3.apic.nsb.local
     ip: 172.23.10.141
 host_aliases:
-  - fqdn: pr-apic-mgr.nsb.local
+  - fqdn: dr-apic-mgr.apic.nsb.local
     ip: &mgr_ip 192.168.172.11
-  - fqdn: platform-api.pr-apic-mgr.nsb.local
+  - fqdn: platform-api.mgmt.apic.nsb.local
     ip: *mgr_ip
-  - fqdn: consumer-api.pr-apic-mgr.nsb.local
+  - fqdn: consumer-api.mgmt.apic.nsb.local
     ip: *mgr_ip
-  - fqdn: cloud-admin-ui.pr-apic-mgr.nsb.local
+  - fqdn: cloud-admin-ui.mgmt.apic.nsb.local
     ip: *mgr_ip
-  - fqdn: api-manager-ui.pr-apic-mgr.nsb.local
+  - fqdn: api-manager-ui.mgmt.apic.nsb.local
     ip: *mgr_ip
-  - fqdn: hub.pr-apic-mgr.nsb.local
+  - fqdn: hub.mgmt.apic.nsb.local
     ip: *mgr_ip
-  - fqdn: turnstile.pr-apic-mgr.nsb.local
+  - fqdn: turnstile.mgmt.apic.nsb.local
     ip: *mgr_ip
 
-  - fqdn: pr-apic-anytcs.nsb.local
+  - fqdn: dr-apic-anytcs.apic.nsb.local
     ip: &anytcs_ip 192.168.172.12
-  - fqdn: analytics-client.pr-apic-anytcs.nsb.local
+  - fqdn: analytics-client.analyt.apic.nsb.local
     ip: *anytcs_ip
-  - fqdn: analytics-ingestion.pr-apic-anytcs.nsb.local
+  - fqdn: analytics-ingestion.analyt.apic.nsb.local
     ip: *anytcs_ip
 
-  - fqdn: pr-apic-devptl.nsb.local
+  - fqdn: dr-apic-devptl.apic.nsb.local
     ip: &devptl_ip 192.168.172.13
-  - fqdn: portal-admin.pr-apic-devptl.nsb.local
+  - fqdn: portal-admin.port.apic.nsb.local
     ip: *devptl_ip
-  - fqdn: portal-www.pr-apic-devptl.nsb.local
+  - fqdn: portal-www.port.apic.nsb.local
     ip: *devptl_ip
