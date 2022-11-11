@@ -2,11 +2,11 @@ xml_mgmt_port: 5550
 rest_mgmt_port: 5554
 peer_group:
   - fqdn: pr-apic-dpgw1.apic.nsb.local
-    ip: 172.22.10.139
+    ip: 192.168.73.139
   - fqdn: pr-apic-dpgw2.apic.nsb.local
-    ip: 172.22.10.140
+    ip: 192.168.73.140
   - fqdn: pr-apic-dpgw3.apic.nsb.local
-    ip: 172.22.10.141
+    ip: 192.168.73.141
 host_aliases:
   - fqdn: pr-apic-mgr.apic.nsb.local
     ip: &mgr_ip 192.168.72.11
