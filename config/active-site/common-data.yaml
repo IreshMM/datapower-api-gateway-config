@@ -7,32 +7,4 @@ peer_group:
     ip: 192.168.73.140
   - fqdn: pr-apic-dpgw3.apic.nsb.local
     ip: 192.168.73.141
-host_aliases:
-  - fqdn: pr-apic-mgr.apic.nsb.local
-    ip: &mgr_ip 192.168.72.11
-  - fqdn: platform-api.mgmt.apic.nsb.local
-    ip: *mgr_ip
-  - fqdn: consumer-api.mgmt.apic.nsb.local
-    ip: *mgr_ip
-  - fqdn: cloud-admin-ui.mgmt.apic.nsb.local
-    ip: *mgr_ip
-  - fqdn: api-manager-ui.mgmt.apic.nsb.local
-    ip: *mgr_ip
-  - fqdn: hub.mgmt.apic.nsb.local
-    ip: *mgr_ip
-  - fqdn: turnstile.mgmt.apic.nsb.local
-    ip: *mgr_ip
-
-  - fqdn: pr-apic-anytcs.apic.nsb.local
-    ip: &anytcs_ip 192.168.72.12
-  - fqdn: analytics-client.analyt.apic.nsb.local
-    ip: *anytcs_ip
-  - fqdn: analytics-ingestion.analyt.apic.nsb.local
-    ip: *anytcs_ip
-
-  - fqdn: pr-apic-devptl.apic.nsb.local
-    ip: &devptl_ip 192.168.72.13
-  - fqdn: portal-admin.port.apic.nsb.local
-    ip: *devptl_ip
-  - fqdn: portal-www.port.apic.nsb.local
-    ip: *devptl_ip
+host_aliases: []
