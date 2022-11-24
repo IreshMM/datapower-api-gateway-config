@@ -79,12 +79,7 @@ top; configure terminal;
         monitor-port {{ 26383 + loop.index }}
         priority {{ gateway_peering_priority }}
         enable-ssl off
-        enable-peer-group on
-        {%- for peer in peer_group %}
-        {%- if peer.fqdn.strip() != fqdn.strip() %}
-        peer {{ peer.fqdn }}
-        {%- endif %}
-        {%- endfor %}
+        enable-peer-group off
         persistence memory
     exit
     {% endfor %}

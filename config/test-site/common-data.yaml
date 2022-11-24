@@ -1,0 +1,4 @@
+xml_mgmt_port: 5550
+rest_mgmt_port: 5554
+peer_group: []
+host_aliases: []
