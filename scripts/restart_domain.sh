@@ -4,6 +4,7 @@ SCRIPT_ROOT="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 SITE="$1"
 GATEWAY_NUM="$2"
+PASSWORD="${PASSWORD:-$3}"
 
 DP_CONFIG_DIR='local:///apic-config'
 CONFIG_DIR=${SCRIPT_ROOT}/../config/${SITE}/datapower-${GATEWAY_NUM}
@@ -17,8 +18,8 @@ cat <<EOF > /tmp/restart_domain.cfg
 	exit
 EOF
 
-$SCRIPT_ROOT/execute.sh "$HOST" "configure terminal; mkdir $DP_CONFIG_DIR; exit"
+$SCRIPT_ROOT/execute.exp "$HOST" "configure terminal; mkdir $DP_CONFIG_DIR; exit" $PASSWORD
 
-dp-file-uploader "$HOST" "$DP_CONFIG_DIR" /tmp/restart_domain.cfg
+dp-file-uploader -p "$PASSWORD" "$HOST" "$DP_CONFIG_DIR" /tmp/restart_domain.cfg
 
-$SCRIPT_ROOT/execute.sh "$HOST" "exec ${DP_CONFIG_DIR}/restart_domain.cfg"
+$SCRIPT_ROOT/execute.exp "$HOST" "exec ${DP_CONFIG_DIR}/restart_domain.cfg" $PASSWORD

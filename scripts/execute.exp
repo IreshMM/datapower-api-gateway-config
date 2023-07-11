@@ -2,6 +2,7 @@
 
 set host [ lindex $argv 0 ]
 set command [ lindex $argv 1 ]
+set password [ lindex $argv 2 ]
 
 set timeout -1
 spawn ssh -t -o HostkeyAlgorithms=+ssh-rsa -o "StrictHostKeyChecking=no" $host
@@ -9,11 +10,9 @@ match_max 100000
 expect "*login: "
 send -- "admin\r"
 expect "*Password: "
-send -- "admin123\r"
+send -- "$password\r"
 expect "*idg# *"
 send -- "$command\r"
-expect "*y/n*"
-send -- "y\r"
 expect "*idg# *"
 send -- "exit\r"
 expect eof
