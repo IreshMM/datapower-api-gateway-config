@@ -1,0 +1,4 @@
+[submodule "vmware-scripts"]
+	path = scripts/powershell/VMKeystrokes.ps1
+	url = https://github.com/lamw/vmware-scripts.git
+	branch = master
