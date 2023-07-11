@@ -23,8 +23,8 @@ EOF
 $SCRIPT_ROOT/execute.sh "$HOST" "configure terminal; xml-mgmt $IP 5550; exit"
 $SCRIPT_ROOT/execute.sh "$HOST" "configure terminal; mkdir $DP_CONFIG_DIR; exit"
 
-dp-file-uploader "$HOST" "$DP_CONFIG_DIR" /tmp/recreate_domain.cfg
-dp-file-uploader "$HOST" "$DP_CONFIG_DIR" "${CONFIG_DIR}/keygen.cfg"
-dp-file-uploader "$HOST" "$DP_CONFIG_DIR" "${CONFIG_DIR}/apic-config.cfg"
+dp-file-uploader -p admin123 "$HOST" "$DP_CONFIG_DIR" /tmp/recreate_domain.cfg
+dp-file-uploader -p admin123 "$HOST" "$DP_CONFIG_DIR" "${CONFIG_DIR}/keygen.cfg"
+dp-file-uploader -p admin123 "$HOST" "$DP_CONFIG_DIR" "${CONFIG_DIR}/apic-config.cfg"
 
 $SCRIPT_ROOT/execute.sh "$HOST" "exec ${DP_CONFIG_DIR}/recreate_domain.cfg"
