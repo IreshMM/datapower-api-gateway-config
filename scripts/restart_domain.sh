@@ -8,7 +8,7 @@ PASSWORD="${PASSWORD:-$3}"
 
 DP_CONFIG_DIR='local:///apic-config'
 CONFIG_DIR=${SCRIPT_ROOT}/../config/${SITE}/datapower-${GATEWAY_NUM}
-HOST=$(yq -r '.fqdn' ${CONFIG_DIR}/data.yaml)
+HOST_IP=$(yq -r '.backend_ip' ${CONFIG_DIR}/data.yaml)
 
 cat <<EOF > /tmp/restart_domain.cfg
 	top; configure terminal;
@@ -18,8 +18,7 @@ cat <<EOF > /tmp/restart_domain.cfg
 	exit
 EOF
 
-$SCRIPT_ROOT/execute.exp "$HOST" "configure terminal; mkdir $DP_CONFIG_DIR; exit" $PASSWORD
 
-dp-file-uploader -p "$PASSWORD" "$HOST" "$DP_CONFIG_DIR" /tmp/restart_domain.cfg
+$SCRIPT_ROOT/upload_file.sh "$HOST_IP" "$DP_CONFIG_DIR" "$PASSWORD" /tmp/restart_domain.cfg
 
-$SCRIPT_ROOT/execute.exp "$HOST" "exec ${DP_CONFIG_DIR}/restart_domain.cfg" $PASSWORD
+$SCRIPT_ROOT/execute.exp "$HOST_IP" "exec ${DP_CONFIG_DIR}/restart_domain.cfg" $PASSWORD

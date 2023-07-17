@@ -4,15 +4,14 @@ SCRIPT_ROOT="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 SITE="$1"
 GATEWAY_NUM="$2"
-SCRIPT_FILE="$3"
+SCRIPT_FILE_PATH="$3"
 PASSWORD="${PASSWORD:-$4}"
+SCRIPT_FILE_NAME="$(basename $SCRIPT_FILE_PATH)"
 
 DP_CONFIG_DIR='local:///apic-config'
 CONFIG_DIR=${SCRIPT_ROOT}/../config/${SITE}/datapower-${GATEWAY_NUM}
-HOST=$(yq -r '.fqdn' ${CONFIG_DIR}/data.yaml)
+HOST_IP=$(yq -r '.backend_ip' ${CONFIG_DIR}/data.yaml)
 
-$SCRIPT_ROOT/execute.exp "$HOST" "configure terminal; mkdir $DP_CONFIG_DIR; exit" "$PASSWORD"
+$SCRIPT_ROOT/upload_file.sh "$HOST_IP" "$DP_CONFIG_DIR" "$PASSWORD" "$SCRIPT_FILE_PATH"
 
-dp-file-uploader -p "$PASSWORD" "$HOST" "$DP_CONFIG_DIR" "$SCRIPT_FILE"
-
-$SCRIPT_ROOT/execute.exp "$HOST" "exec ${DP_CONFIG_DIR}/${SCRIPT_FILE}" "$PASSWORD" 
+$SCRIPT_ROOT/execute.exp "$HOST_IP" "exec ${DP_CONFIG_DIR}/${SCRIPT_FILE_NAME}" "$PASSWORD" 

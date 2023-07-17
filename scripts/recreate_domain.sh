@@ -8,8 +8,8 @@ PASSWORD="${PASSWORD:-$3}"
 
 DP_CONFIG_DIR='local:///apic-config'
 CONFIG_DIR=${SCRIPT_ROOT}/../config/${SITE}/datapower-${GATEWAY_NUM}
-HOST=$(yq -r '.fqdn' ${CONFIG_DIR}/data.yaml)
-IP=$(yq -r '.backend_ip' ${CONFIG_DIR}/data.yaml)
+HOST_FQDN=$(yq -r '.fqdn' ${CONFIG_DIR}/data.yaml)
+HOST_IP=$(yq -r '.backend_ip' ${CONFIG_DIR}/data.yaml)
 
 cat <<EOF > /tmp/recreate_domain.cfg
 	top; configure terminal;
@@ -21,11 +21,8 @@ cat <<EOF > /tmp/recreate_domain.cfg
 	exit
 EOF
 
-$SCRIPT_ROOT/execute.exp "$HOST" "configure terminal; xml-mgmt $IP 5550; exit" "$PASSWORD"
-$SCRIPT_ROOT/execute.exp "$HOST" "configure terminal; mkdir $DP_CONFIG_DIR; exit" "$PASSWORD"
+$SCRIPT_ROOT/execute.exp "$HOST_IP" "configure terminal; xml-mgmt $HOST_IP 5550; exit" "$PASSWORD"
 
-dp-file-uploader -p "$PASSWORD" "$HOST" "$DP_CONFIG_DIR" /tmp/recreate_domain.cfg
-dp-file-uploader -p "$PASSWORD" "$HOST" "$DP_CONFIG_DIR" "${CONFIG_DIR}/keygen.cfg"
-dp-file-uploader -p "$PASSWORD" "$HOST" "$DP_CONFIG_DIR" "${CONFIG_DIR}/apic-config.cfg"
+$SCRIPT_ROOT/upload_file.sh "$HOST_IP" "$DP_CONFIG_DIR" "$PASSWORD" /tmp/recreate_domain.cfg "$CONFIG_DIR"/{keygen.cfg,apic-config.cfg}
 
-$SCRIPT_ROOT/execute.exp "$HOST" "exec ${DP_CONFIG_DIR}/recreate_domain.cfg" "$PASSWORD"
+$SCRIPT_ROOT/execute.exp "$HOST_IP" "exec ${DP_CONFIG_DIR}/recreate_domain.cfg" "$PASSWORD"
