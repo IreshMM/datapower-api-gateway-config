@@ -11,7 +11,7 @@ FILE_PATHS="$@"
 XML_MGMT_PORT=5550
 if [[ "$F_UPLOAD_USE_WEB_MGMT_PORT" == true ]]; then
     XML_MGMT_PORT=9090
-    ./execute.exp $HOST "configure terminal; web-mgmt; admin-state disabled; exit; xml-mgmt $HOST $XML_MGMT_PORT; exit" $PASSWORD
+    ./execute.exp $HOST "configure terminal; web-mgmt; admin-state disabled; exit; xml-mgmt; port $XML_MGMT_PORT; exit; exit" $PASSWORD
 fi
 
 $SCRIPT_ROOT/execute.exp "$HOST" "configure terminal; mkdir $DP_CONFIG_DIR; exit" "$PASSWORD"
@@ -22,5 +22,5 @@ done
 
 if [[ "$F_UPLOAD_USE_WEB_MGMT_PORT" == true ]]; then
     XML_MGMT_PORT=5550
-    ./execute.exp $HOST "configure terminal; xml-mgmt $HOST $XML_MGMT_PORT; web-mgmt; admin-state enabled; exit; exit" $PASSWORD
+    ./execute.exp $HOST "configure terminal; xml-mgmt; port $XML_MGMT_PORT; exit; web-mgmt; admin-state enabled; exit; exit" $PASSWORD
 fi

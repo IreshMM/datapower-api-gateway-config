@@ -21,8 +21,6 @@ cat <<EOF > /tmp/recreate_domain.cfg
 	exit
 EOF
 
-$SCRIPT_ROOT/execute.exp "$HOST_IP" "configure terminal; xml-mgmt $HOST_IP 5550; exit" "$PASSWORD"
-
 $SCRIPT_ROOT/upload_file.sh "$HOST_IP" "$DP_CONFIG_DIR" "$PASSWORD" /tmp/recreate_domain.cfg "$CONFIG_DIR"/{keygen.cfg,apic-config.cfg}
 
 $SCRIPT_ROOT/execute.exp "$HOST_IP" "exec ${DP_CONFIG_DIR}/recreate_domain.cfg" "$PASSWORD"
