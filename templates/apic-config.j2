@@ -5,6 +5,29 @@ top; configure terminal;
         name "{{ fqdn }}"
     exit
 
+    ethernet eth0
+        admin-state enabled
+        ip-config-mode static
+        ip-address {{ frontend_ip }}/{{ frontend_prefix }}
+        ip-route 0.0.0.0/0 {{ frontend_gateway }} 400
+    exit
+
+    ethernet eth1
+        admin-state enabled
+        ip-config-mode static
+        ip-address {{ backend_ip }}/{{ backend_prefix }}
+        ipv4-default-gateway {{ backend_gateway }}
+    exit
+
+    ntp
+        admin-state enabled
+        remote-server {{ ntp_server_ip }}
+    exit
+
+    timezone
+        name UTC
+    exit
+
     {% for host_alias in host_aliases -%}
     host-alias {{ host_alias.fqdn }}
         ip-address {{ host_alias.ip }}
