@@ -1,5 +1,10 @@
 xml_mgmt_port: 5550
 rest_mgmt_port: 5554
+ntp_server_ip: 161.26.0.6
+frontend_prefix: 26
+frontend_gateway: 172.23.8.1
+backend_prefix: 26
+backend_gateway: 172.23.8.65
 peer_group:
   - fqdn: pr-apic-dpgw1.apic.nsb.local
     ip: 172.23.8.76
