@@ -14,7 +14,7 @@ if ($site_name -eq "pr") {
 	Exit;
 }
 
-$vm = "APIConnect-datapower-${gateway_num}-${site_name}"
+$vm = "APIConnect-datapower-${gateway_num}-nsb-${site_name}"
 $username = "admin"
 $password = "admin"
 $newpassword = "admin123"
