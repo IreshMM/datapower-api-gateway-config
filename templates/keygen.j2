@@ -1,7 +1,7 @@
 top; configure terminal;
-    domain apiconnect; visible default; exit;
+    domain {{ name }}; visible default; exit;
 
-    sw apiconnect
+    sw {{ name }}
     crypto
         keygen C LK CN {{ fqdn }} gen-object gen-sscert export-sscert
     exit

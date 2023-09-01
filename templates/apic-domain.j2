@@ -1,65 +1,8 @@
 top; configure terminal;
     sw default
 
-    system
-        name "{{ fqdn }}"
-    exit
-
-    ethernet eth0
-        admin-state enabled
-        ip-config-mode static
-        ip-address {{ frontend_ip }}/{{ frontend_prefix }}
-        ip-route 0.0.0.0/0 {{ frontend_gateway }} 400
-    exit
-
-    ethernet eth1
-        admin-state enabled
-        ip-config-mode static
-        ip-address {{ backend_ip }}/{{ backend_prefix }}
-        ipv4-default-gateway {{ backend_gateway }}
-    exit
-
-    ntp
-        admin-state enabled
-        remote-server {{ ntp_server_ip }}
-    exit
-
-    timezone
-        name UTC
-    exit
-
-    {% for host_alias in host_aliases -%}
-    host-alias {{ host_alias.fqdn }}
-        ip-address {{ host_alias.ip }}
-    exit
-    {% endfor %}
-
-    {% for peer in peer_group -%}
-    host-alias {{ peer.fqdn }}
-        ip-address {{ peer.ip }}
-    exit
-    {% endfor %}
-
-    web-mgmt
-        admin-state enabled
-        local-address {{ backend_fqdn }}
-        port 9090
-    exit
-
-    xml-mgmt
-        admin-state enabled
-        local-address {{ backend_fqdn }}
-        port {{ xml_mgmt_port }}
-    exit
-
-    rest-mgmt
-        admin-state enabled
-        local-address {{ backend_fqdn }}
-        port {{ rest_mgmt_port }}
-    exit
-
-    domain apiconnect; visible default; exit;
-    sw apiconnect
+    domain {{ name }}; visible default; exit;
+    sw {{ name }}
 
     loglevel error;
     logging target gwd-log
@@ -71,7 +14,7 @@ top; configure terminal;
         event apic-gw-service debug
     exit
 
-    config-sequence "apiconnect"
+    config-sequence "{{ name }}"
       location "local:///"
       watch "on"
       delete-unused "on"
@@ -97,17 +40,19 @@ top; configure terminal;
     {% for peering_object_name in ['subs', 'rate-limit', 'gwd', 'probe', 'gws-rate-limit'] %}
     gateway-peering {{ peering_object_name }}
         admin enabled
-        local-address {{ backend_fqdn }}
+        local-address {{ backend_listen }}
         local-port {{ 16383 + loop.index }}
         monitor-port {{ 26383 + loop.index }}
-        priority {{ gateway_peering_priority }}
         enable-ssl off
+        {%- if enable_peer_group %}
+        priority {{ gateway_peering_priority }}
         enable-peer-group on
         {%- for peer in peer_group %}
-        {%- if peer.fqdn.strip() != fqdn.strip() %}
-        peer {{ peer.fqdn }}
+        {%- if peer.strip() != fqdn.strip() %}
+        peer {{ peer }}
         {%- endif %}
         {%- endfor %}
+        {%- endif %}
         persistence memory
     exit
     {% endfor %}
@@ -129,10 +74,10 @@ top; configure terminal;
 
     apic-gw-service
       admin-state enabled
-      local-address {{ backend_fqdn }}
-      local-port 3000
-      api-gw-address {{ frontend_fqdn }}
-      api-gw-port 443
+      local-address {{ backend_listen }}
+      local-port {{ gw_backend_port }}
+      api-gw-address {{ frontend_listen }}
+      api-gw-port {{ gw_frontend_port }}
       v5-compatibility-mode off
       ssl-server gwd-to-mgmt
       ssl-client gwd-to-mgmt

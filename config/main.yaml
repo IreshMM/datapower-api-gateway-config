@@ -1,0 +1,124 @@
+nodes:
+  - name: APIConnect-datapower-1
+    fqdn: dpgw-1.apic.mobitel.lk
+    nics:
+      - name: primary
+        ip_address: 192.168.252.14
+        fqdn: dpgw-1.apic.mobitel.lk
+        default: true
+    management_listen: 0
+  - name: APIConnect-datapower-2
+    fqdn: dpgw-2.apic.mobitel.lk
+    nics:
+      - name: primary
+        ip_address: 192.168.252.15
+        fqdn: dpgw-2.apic.mobitel.lk
+        default: true
+    management_listen: 0
+  - name: APIConnect-datapower-3
+    fqdn: dpgw-3.apic.mobitel.lk
+    nics:
+      - name: primary
+        ip_address: 192.168.252.16
+        fqdn: dpgw-3.apic.mobitel.lk
+        default: true
+    management_listen: 0
+  - name: APIConnect-datapower-4
+    fqdn: dpgw-4.apic.mobitel.lk
+    nics:
+      - name: primary
+        ip_address: 192.168.252.17
+        fqdn: dpgw-4.apic.mobitel.lk
+        default: true
+    management_listen: 0
+apic_domains:
+  - name: apiconnect
+    node: 0
+    frontend_listen: 0
+    backend_listen: 0
+    management_listen: 0
+    gw_peering_port_start: 16383
+    gw_backend_port: 3000
+    gw_frontend_port: 443
+  - name: apicfinxapi
+    node: 0
+    frontend_listen: 0
+    backend_listen: 0
+    management_listen: 0
+    gw_peering_port_start: 16383
+    gw_backend_port: 3000
+    gw_frontend_port: 443
+  - name: apicinternel
+    node: 1
+    frontend_listen: 0
+    backend_listen: 0
+    management_listen: 0
+    gw_peering_port_start: 16383
+    gw_backend_port: 3000
+    gw_frontend_port: 443
+  - name: apicechannelling
+    node: 2
+    frontend_listen: 0
+    backend_listen: 0
+    management_listen: 0
+    gw_peering_port_start: 16383
+    gw_backend_port: 3000
+    gw_frontend_port: 443
+  - name: apicdev
+    node: 3
+    frontend_listen: 0
+    backend_listen: 0
+    management_listen: 0
+    gw_peering_port_start: 16383
+    gw_backend_port: 3000
+    gw_frontend_port: 443
+common:
+  node:
+    nameserver: 192.168.252.40
+    nics:
+      - name: primary
+        prefix: 24
+        gateway: 192.168.252.1
+    web_mgmt_port: 9090
+    xml_mgmt_port: 5550
+    rest_mgmt_port: 5554
+    ntp_server_ip: 161.26.0.6
+    host_aliases:
+      - fqdn: dpgw-1.apic.mobitel.lk
+        ip: 192.168.252.14
+      - fqdn: dpgw-2.apic.mobitel.lk
+        ip: 192.168.252.15
+      - fqdn: dpgw-3.apic.mobitel.lk
+        ip: 192.168.252.16
+      - fqdn: dpgw-4.apic.mobitel.lk
+        ip: 192.168.252.17
+      - fqdn: mgmt.apic.mobitel.lk
+        ip: &mgr 192.168.252.11
+      - fqdn: analyt.apic.mobitel.lk
+        ip: &anytcs 192.168.252.12
+      - fqdn: port.apic.mobitel.lk
+        ip: &devptl 192.168.252.13
+      - fqdn: api-manager-ui.mgmt.apic.mobitel.lk
+        ip: *mgr
+      - fqdn: cloud-admin-ui.mgmt.apic.mobitel.lk
+        ip: *mgr
+      - fqdn: consumer-api.mgmt.apic.mobitel.lk
+        ip: *mgr
+      - fqdn: hub.mgmt.apic.mobitel.lk
+        ip: *mgr
+      - fqdn: platform-api.mgmt.apic.mobitel.lk
+        ip: *mgr
+      - fqdn: turnstile.mgmt.apic.mobitel.lk
+        ip: *mgr
+      - fqdn: analytics-client.analyt.apic.mobitel.lk
+        ip: *anytcs
+      - fqdn: analytics-ingestion.analyt.apic.mobitel.lk
+        ip: *anytcs
+      - fqdn: portal-admin.port.apic.mobitel.lk
+        ip: *devptl
+      - fqdn: portal-www.port.apic.mobitel.lk
+        ip: *devptl
+  apic_domain:
+    peer_group: []
+    enable_peer_group: false
+

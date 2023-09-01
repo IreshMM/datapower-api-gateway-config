@@ -1,0 +1,67 @@
+top; configure terminal;
+    sw default
+
+    system
+        name "{{ fqdn }}"
+    exit
+
+    {% for nic in nics %}
+    ethernet eth{{ loop.index0 }}
+        admin-state enabled
+        ip-config-mode static
+        ip-address {{ nic.ip_address }}/{{ nic.prefix }}
+        {%- if nic.default %}
+        ipv4-default-gateway {{ nic.gateway }}
+        {%- else %}
+        ip-route 0.0.0.0/0 {{ nic.gateway }} 400
+        {%- endif %}
+    exit
+    {% endfor %}
+
+    raid-volume raid0
+	admin-state enabled
+	read-only off
+	directory ondisk
+    exit
+
+    dns
+	admin-state enabled
+	name-server {{ nameserver }}
+    exit
+
+    ntp
+        admin-state enabled
+        remote-server {{ ntp_server_ip }}
+    exit
+
+    timezone
+        name UTC
+    exit
+
+    {% for host_alias in host_aliases -%}
+    host-alias {{ host_alias.fqdn }}
+        ip-address {{ host_alias.ip }}
+    exit
+    {% endfor %}
+
+    web-mgmt
+        admin-state enabled
+        local-address {{ management_listen }}
+        port {{ web_mgmt_port }}
+    exit
+
+    xml-mgmt
+        admin-state enabled
+        local-address {{ management_listen  }}
+        port {{ xml_mgmt_port }}
+    exit
+
+    rest-mgmt
+        admin-state enabled
+        local-address {{ management_listen }}
+        port {{ rest_mgmt_port }}
+    exit
+
+    write memory
+exit
+
