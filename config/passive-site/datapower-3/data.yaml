@@ -1,7 +1,0 @@
----
-backend_ip: 172.23.8.78
-frontend_ip: 172.23.8.13
-backend_fqdn: pr-apic-dpgw3-be.apic.nsb.local
-frontend_fqdn: pr-apic-dpgw3-fe.apic.nsb.local
-fqdn: pr-apic-dpgw3.apic.nsb.local
-gateway_peering_priority: 110
